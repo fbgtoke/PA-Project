@@ -40,7 +40,7 @@ flipflop_wr #(LENGTH) ff(
 /* Multiplexer to select seq or given addr */
 wire [1:0] [LENGTH-1:0] mux_in;
 
-muxN_1 #(LENGTH, 2) mux(
+muxN_1 #(.LENGTH(LENGTH), .N(2)) mux(
   .p(mux_in),
   .sel(pc_in),
   .q(ff_in)
@@ -48,15 +48,15 @@ muxN_1 #(LENGTH, 2) mux(
 
 /* Adder PC+4 */
 reg [LENGTH-1:0] pc4 = 'd4;
-reg cin = 0;
-
 wire [LENGTH-1:0] adder_out;
+wire cout;
 
-fulladder #(LENGTH) adder(
+fulladder #(.LENGTH(LENGTH)) adder(
   .a(pc4),
   .b(ff_out),
   .sum(adder_out),
-  .cin(cin)
+  .cin(1'b0),
+  .cout(cout)
 );
 
 assign q_wr = ff_out;
